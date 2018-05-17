@@ -1,0 +1,5 @@
+"true_mult"
+"alpha_mean" 1.04487757874254
+"sqrt_mean_sigma3" 0.0344724551914463
+"mean_sqrt_sigma3" 0.0340613081076402
+"sd_sqrt_sigma3" 0.00537949902987975

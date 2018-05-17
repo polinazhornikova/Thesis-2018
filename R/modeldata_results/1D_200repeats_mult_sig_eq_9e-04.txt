@@ -1,0 +1,15 @@
+"true_mult"
+"measure_add_med" 1.61392807086686
+"measure_add_mean" 1.87531598704878
+"measure_mult_med" 0.0864954262970319
+"measure_mult_mean" 0.112851330007493
+"number_of_genes" 200
+"num_true_more_than_false" 0
+"true_x" 0.1
+"coef_x_med" 0.0910206451845083
+"coef_x_mean" 0.0923781487676228
+"true_y" 9e-04
+"coef_y_med" 0.000831821660222625
+"coef_y_mean" 0.000826625154451946
+"coef_y_sqrt_mean" 0.0285173480886843
+"coef_y_sqrt_sd" 0.00366787115844286
