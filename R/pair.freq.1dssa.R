@@ -1,6 +1,4 @@
-library(Rssa)
-
-pgram <- function(x) {
+pgram1 <- function(x) {
   if (!is.matrix(x)) x <- as.matrix(x)
   stopifnot(all(is.finite(x)))
   
@@ -31,7 +29,7 @@ pgram <- function(x) {
 # I1 are the indices of the components with omega = 0.5
 # I2 are the indices of other components (with omega != 0.5)
 
-AI_em_garm_pgram_1d <- function(x, groups,  s_0 = 1, rho_0 = 0.9){
+draft.grouping.auto.pair.freq.1dssa <- function(x, groups,  s_0 = 1, rho_0 = 0.9,...){
   L <- x$window
   n <- nu(x)
   max_k <- length((0:(L %/% 2)) / L)
@@ -44,8 +42,8 @@ AI_em_garm_pgram_1d <- function(x, groups,  s_0 = 1, rho_0 = 0.9){
   
   Fs <- x$U[, groups, drop = FALSE]
   # periodogram
-  pgs <- pgram(Fs)
-  pgs$spec <- pgs$spec / n
+  pgs <- pgram1(Fs)
+  pgs$spec <- pgs$spec / L
   
   ### part one
   max_pgram <- apply(pgs$spec, 2, function(x) pgs$freq[which.max(x)])
@@ -62,9 +60,9 @@ AI_em_garm_pgram_1d <- function(x, groups,  s_0 = 1, rho_0 = 0.9){
     if (length(I_1_prefinal) != 0){
       I_1_final <- sort(c(I_1_prefinal, I_1_prefinal+1))
     }
-    else {I_1_final <- NULL}
+    else {I_1_final <- numeric(0)}
   }
-  else {I_1_final <- NULL}
+  else {I_1_final <- numeric(0)}
   
   if (length(I_2) != 0){
     rho_I_2 <- pgs$spec[,I_2] 
@@ -72,10 +70,10 @@ AI_em_garm_pgram_1d <- function(x, groups,  s_0 = 1, rho_0 = 0.9){
     r2 <- rho_I_2[which(pgs$freq == L %/% 2 / L)]
     I_2_final <- I_2[r1+r2 >= rho_0]
   }
-  else {I_2_final <- NULL}
+  else {I_2_final <- numeric(0)}
   
   ### final
-  list(I_1 = I_1_final, I_2 = I_2_final)
+  list(I_1 = unique(sort(I_1_final)), I_2 = unique(sort(I_2_final)))
 }
 
 

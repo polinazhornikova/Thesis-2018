@@ -1,5 +1,6 @@
 library("Rssa")
 library("lattice")
+source('main.grouping.auto.R')
 
 # Create a zero matrix
 new.matrix <- function(N_t = 100, N_c = 100){
@@ -122,7 +123,7 @@ cssa.col <- function(m, num.line = 1, auto=1){
   for (i in (1:N_t)){
     s <- ssa(m[,i], kind = "cssa", svd.method = "svd")
     if (auto){
-      idx <- AI_em_garm_tau_cssa(s, d2=FALSE, numcomp1 = num.line)
+      idx <- draft.grouping.auto(x=s, grouping.method = "tau.cssa",numcomp1 = num.line)$d1
       r <- reconstruct(s, groups = list(Seasonality = (idx)))
     }
     else{

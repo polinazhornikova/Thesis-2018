@@ -1,4 +1,3 @@
-
 pgram <- function(x,n) {
   
   N <- nrow(x[[1]])
@@ -26,10 +25,10 @@ pgram <- function(x,n) {
   list(spec = spec, freq1 = freq1, freq2 = freq2)
 }
 
-AI_trend_freq_2d <- function(x, groups, freq.bins1 = 0.1,
+draft.grouping.auto.low.freq.2dssa <- function(x, groups, freq.bins1 = 0.1,
                                         freq.bins2 = 0.1,
                                         threshold = 0.8,
-                                        base = c("series", "eigen")) {
+                                        base = c("series", "eigen"),...) {
   
   base <- match.arg(base)
   
@@ -69,6 +68,6 @@ AI_trend_freq_2d <- function(x, groups, freq.bins1 = 0.1,
   }  
   
   result <- groups[contributions >= threshold]
-  list(g=as.vector(na.omit(result)),contr=contributions)
+  list(g=sort(unique(as.vector(na.omit(result)))),contr=contributions)
 }
 

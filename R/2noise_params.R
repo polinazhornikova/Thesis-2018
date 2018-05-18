@@ -3,6 +3,7 @@
 #####################################################################
 
 source('2noise_all_function_1D.R')
+source('2noise_2d_ssa_my_auto_trend_bio.R')
 
 library(Rssa)
 library(lattice)

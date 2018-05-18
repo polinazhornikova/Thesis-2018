@@ -1,5 +1,5 @@
-source('AI_em_garm_tau_1d.R')
-source('AI_em_garm_pgram_1d.R')
+source('tau.1dssa.R')
+source('pair.freq.1dssa.R')
 
 library(Rssa)
 library(lattice)
@@ -16,7 +16,7 @@ error <- function(x, y, alpha){
 }
 
 #number of simulations
-n_rep <- 200
+n_rep <- 2
 
 N <- 99
 L <- 50
@@ -62,11 +62,11 @@ for (sigma in sigma_l){
     err_pgram_k <- numeric(n_rep)
     
     for (k in (1:M)){
-      idx_tau1 <- AI_em_garm_tau_1d(s, threshold = delta*k)
+      idx_tau1 <- draft.grouping.auto.tau.1dssa(s, threshold = delta*k)
       rec_tau1 <- reconstruct(s, groups = list(idx_tau1))
       x_recon_tau1 <- rec_tau1$F1
       
-      idx_pgram <- AI_em_garm_pgram_1d(s, rho_0 = delta*k)$I_1
+      idx_pgram <- draft.grouping.auto.pair.freq.1dssa(s, rho_0 = delta*k)$I_1
       rec_pgram <- reconstruct(s, groups = list(idx_pgram))
       x_recon_pgram <- rec_pgram$F1
       
@@ -87,11 +87,11 @@ for (sigma in sigma_l){
     rec_V <- reconstruct(s, groups = list(1:2))
     x_recon_V <- rec_V$F1
     
-    idx_tau1 <- AI_em_garm_tau_1d(s, threshold = threshold)
+    idx_tau1 <- draft.grouping.auto.tau.1dssa(s, threshold = threshold)
     rec_tau1 <- reconstruct(s, groups = list(idx_tau1))
     x_recon_tau1 <- rec_tau1$F1
     
-    idx_pgram <- AI_em_garm_pgram_1d(s, rho_0 = rho_0)$I_1
+    idx_pgram <- draft.grouping.auto.pair.freq.1dssa(s, rho_0 = rho_0)$I_1
     rec_pgram <- reconstruct(s, groups = list(idx_pgram))
     x_recon_pgram <- rec_pgram$F1
     

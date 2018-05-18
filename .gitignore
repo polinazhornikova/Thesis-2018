@@ -242,3 +242,6 @@ TSWLatexianTemp*
 *.spl
 
 Thumbs.db
+.Rproj.user
+.Rhistory
+Zhornikova_report_mag_sem4.pdf
