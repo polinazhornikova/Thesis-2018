@@ -18,7 +18,7 @@ optim.turn <- function(P, Q, fun){
 }
 
 draft.grouping.auto.tau.cssa <- function(x, threshold = 0.01, numcomp1=0, numcomp2=0, 
-                                groups, all.pairs=FALSE, f=angle.fun,...){
+                                         groups, all.pairs=FALSE, f=angle.fun,...){
   if (missing(groups)) {
     groups <- 1:nu(x)
   }
@@ -32,7 +32,7 @@ draft.grouping.auto.tau.cssa <- function(x, threshold = 0.01, numcomp1=0, numcom
   for (i in seq_along(groups)){
     tau[i]  <- f(Re(x$U[,groups[i]]),Im(x$U[,groups[i]]))
   }
-  if (numcomp1 > 0) {  
+  if (numcomp1 > 0) {
     tau_sort <- sort(tau)[(1:numcomp1)]
     idx_final_1 <- groups[which(tau %in% tau_sort)]
     groups <- groups[-which(groups %in% idx_final_1)]
@@ -42,13 +42,19 @@ draft.grouping.auto.tau.cssa <- function(x, threshold = 0.01, numcomp1=0, numcom
     groups <- groups[-which(groups %in% idx_final_1)]
   }
   
+  
   # d = 2
   
   if (numcomp2 > 0) {  
     if (!all.pairs){
       tau <- numeric(length(groups)-1)
+      tau_prev <- 1000
       for (i in seq_along(groups)[-length(groups)]){
         tau[i]  <- optim.turn(x$U[,groups[i]], x$U[,groups[i+1]], f)$tau
+        if (tau[i] > tau_prev) {
+          tau[i] <- 1000
+        }
+        tau_prev <- tau[i]
       }
       tau_sort <- sort(tau)[1:numcomp2]
       idx_final_2_0 <- groups[which(tau %in% tau_sort)]
@@ -69,9 +75,13 @@ draft.grouping.auto.tau.cssa <- function(x, threshold = 0.01, numcomp1=0, numcom
   }
   else {
     if (!all.pairs){
-      tau <- numeric(length(groups)-1)
+      tau_prev <- 1000
       for (i in seq_along(groups)[-length(groups)]){
         tau[i]  <- optim.turn(x$U[,groups[i]], x$U[,groups[i+1]], f)$tau
+        if (tau[i] > tau_prev) {
+          tau[i] <- 1000
+        }
+        tau_prev <- tau[i]
       }
       idx_final_2_0 <- groups[which(tau <= threshold)]
       idx_final_2 <- c(idx_final_2_0, idx_final_2_0 + 1)
