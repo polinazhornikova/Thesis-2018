@@ -1,30 +1,3 @@
-pgram_c <- function(x) {
-  if (!is.matrix(x)) x <- as.matrix(x)
-  stopifnot(all(is.finite(x)))
-  
-  X <- mvfft(x)
-  n <- nrow(x)
-  
-  N <- n %/% 2 + 1
-  spec <- abs(X[seq_len(N),, drop = FALSE])^2
-  
-  if (n %% 2 == 0) {
-    if (N > 2) spec[2:(N-1), ] <- 2 * spec[2:(N-1), ]
-  } else {
-    if (N >= 2) spec[2:N, ] <- 2 * spec[2:N, ]
-  }
-  
-  freq <- seq(0, 1, length.out = n + 1)[seq_len(N)]
-  
-  cumspecfuns <- lapply(seq_len(ncol(x)),
-                        function(j)
-                          approxfun(c(0, freq[-N] + 1/(2*n), 0.5),
-                                    c(0, cumsum(spec[, j])),
-                                    rule = 2))
-  
-  list(spec = spec, freq = freq, cumspecfuns = cumspecfuns)
-}
-
 draft.grouping.auto.low.freq.cssa <- function(x, groups,
                           base = c("series", "eigen", "factor"),
                           freq.bins = 2,
@@ -50,8 +23,8 @@ draft.grouping.auto.low.freq.cssa <- function(x, groups,
     Fs <- matrix(unlist(reconstruct(x, groups = as.list(groups), ...)), nrow = N)
   }
   
-  pgs_re <- pgram_c(Re(Fs))
-  pgs_im <- pgram_c(Im(Fs))
+  pgs_re <- pgram_1d(Re(Fs))
+  pgs_im <- pgram_1d(Im(Fs))
   
   if (!is.list(freq.bins)) {
     if (length(freq.bins) == 1 && freq.bins >= 2) {

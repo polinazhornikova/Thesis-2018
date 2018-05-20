@@ -13,8 +13,10 @@ tau.cssa.R
 pair.freq.1dssa.R
 
 # low frequency method
-low.freq.cssa.R
 low.freq.1dssa.R
+low.freq.cssa.R
+low.freq.mssa.R
+low.freq.2dssa.R
 
 # comparison of the method by the regularity of angles with paired frequency methods for 1D-SSA
 comp_1d_em_garm_tau_pgram.R
@@ -29,5 +31,5 @@ tau_threshold_selection.R
 # many files
 2noise ... .R
 
-# Triket's algorithm for identifying lines
+# Triket's algorithm for identification lines
 algorithm.trickett.R

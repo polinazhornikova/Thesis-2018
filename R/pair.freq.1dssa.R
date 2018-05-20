@@ -1,30 +1,3 @@
-pgram1 <- function(x) {
-  if (!is.matrix(x)) x <- as.matrix(x)
-  stopifnot(all(is.finite(x)))
-  
-  X <- mvfft(x)
-  n <- nrow(x)
-  
-  N <- n %/% 2 + 1
-  spec <- abs(X[seq_len(N),, drop = FALSE])^2
-  
-  if (n %% 2 == 0) {
-    if (N > 2) spec[2:(N-1), ] <- 2 * spec[2:(N-1), ]
-  } else {
-    if (N >= 2) spec[2:N, ] <- 2 * spec[2:N, ]
-  }
-  
-  freq <- seq(0, 1, length.out = n + 1)[seq_len(N)]
-  
-  cumspecfuns <- lapply(seq_len(ncol(x)),
-                        function(j)
-                          approxfun(c(0, freq[-N] + 1/(2*n), 0.5),
-                                    c(0, cumsum(spec[, j])),
-                                    rule = 2))
-  
-  list(spec = spec, freq = freq, cumspecfuns = cumspecfuns)
-}
-
 # returns a list of two vectors I_1 and I_2
 # I1 are the indices of the components with omega = 0.5
 # I2 are the indices of other components (with omega != 0.5)
@@ -42,7 +15,7 @@ draft.grouping.auto.pair.freq.1dssa <- function(x, groups,  s_0 = 1, rho_0 = 0.9
   
   Fs <- x$U[, groups, drop = FALSE]
   # periodogram
-  pgs <- pgram1(Fs)
+  pgs <- pgram_1d(Fs)
   pgs$spec <- pgs$spec / L
   
   ### part one

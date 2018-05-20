@@ -10,6 +10,7 @@ x <- exp(0.01 * (1:N)) + 2*cos(2 * pi * omega1 * (1:N)) +  exp(0.009 * (1:N)) * 
 plot(x, type="l")
 s <- ssa(x)
 plot(s, type="vectors")
+plot(s, type="paired")
 
 # trend
 g <- grouping.auto(
@@ -26,8 +27,9 @@ xyplot(X + T ~ N, data = d, type ='l')
 # e-m garm
 # tau 
 g <- draft.grouping.auto(s, grouping.method = "tau.1dssa")
-print(g)
-r <- reconstruct(s, groups = list(S = g))
+print(g$idx)
+# print(g$tau)
+r <- reconstruct(s, groups = list(S = g$idx))
 d <- data.frame(S = r$S, X = x, N = 1:N)
 xyplot(X + S ~ N, data = d, type ='l')
 
@@ -75,68 +77,65 @@ plot.d1 <- function(s,index=1:8){
 plot.d1(s)
 plot(s, type="paired")
 g <- draft.grouping.auto(s, grouping.method = "tau.cssa",  treshold=0.05)
-print(g)
-
-# more examples with e-m
-# only d = 1
-x <- cos(2 * pi * omega1 * (1:N)) +1.0i*sin(2 * pi * omega1 * (1:N)) + 1.0i*rnorm(N, 0.1) 
-s <- ssa(x, kind = 'cssa')
-plot(s, type="vectors")
-plot(s, type="paired")
-plot.d1(s)
-
-g <- draft.grouping.auto(s, grouping.method = "tau.cssa", all.pairs=TRUE, treshold=0.01)
-print(g)
-r <- reconstruct(s, groups = list(S=c(g$d1, g$d2)))
+print(g$d1_idx)
+# print(g$tau_d1)
+print(g$d2_idx)
+# print(g$tau_d2)
+r <- reconstruct(s, groups = list(S=c(g$d1_idx, g$d2_idx)))
 d_re <- data.frame(S_re = Re(r$S),  X_re = Re(x),N = 1:N)
 xyplot(X_re  + S_re  ~ N, data = d_re, type ='l')
 d_im <- data.frame(S_im = Im(r$S), X_im = Im(x), N = 1:N)
 xyplot(X_im + S_im ~ N, data = d_im, type ='l')
 
-# only d = 1 + complex noise
-x <- cos(2 * pi * omega1 * (1:N)) +1.0i*sin(2 * pi * omega1 * (1:N)) + 1.0i*rnorm(N, 0.1) + rnorm(N, 0.1)
-s <- ssa(x, kind = 'cssa')
-plot(s, type="vectors")
-plot(s, type="paired")
-plot.d1(s)
 
-g <- draft.grouping.auto(s, grouping.method = "tau.cssa", all.pairs=TRUE, treshold=0.01)
-print(g)
+### MSSA
+N.A <- 150
+N.B <- 120
+omega1 <- 0.1
+omega2 <- 0.05
+tt.A <- 1:N.A
+tt.B <- 1:N.B
+F1 <- list(A = 2 * sin(2*pi * omega1 * tt.A), B = cos(2*pi * omega1 * tt.B))
+F2 <- list(A = 1 * sin(2*pi * omega2 * tt.A), B = cos(2*pi * omega2 * tt.B))
+F3 <- list(A = exp(0.01 * tt.A))
+F4 <- list(A=rnorm(tt.A), B=rnorm(tt.B))
+F <- list(A = F1$A + F2$A + F3$A+ F4$A, B = F1$B + F2$B + F4$B)
 
-# only d = 2
-x <- 2*cos(2 * pi * omega1 * (1:N)) +1.0i*cos(2 * pi * omega1 * (1:N)) + 1.0i*rnorm(N, 0.1) 
-s <- ssa(x, kind = 'cssa')
-plot(s, type="vectors")
-plot(s, type="paired")
-plot.d1(s)
+s <- ssa(F, kind = "mssa")
+plot(s,type='vectors')
 
-g <- draft.grouping.auto(s, grouping.method = "tau.cssa", all.pairs=TRUE, treshold=0.007)
-print(g)
-r <- reconstruct(s, groups = list(S=c(g$d1, g$d2)))
-d_re <- data.frame(S_re = Re(r$S),  X_re = Re(x),N = 1:N)
-xyplot(X_re  + S_re  ~ N, data = d_re, type ='l')
-d_im <- data.frame(S_im = Im(r$S), X_im = Im(x), N = 1:N)
-xyplot(X_im + S_im ~ N, data = d_im, type ='l')
+# trend
+# series
+g <- draft.grouping.auto(s, grouping.method = 'low.freq.mssa', base='series', freq.bins = list(0.01), threshold = 0.9)
+print(g$F1)
+r <- reconstruct(s, groups = list(T = g$F1))
 
-# only d = 2 + complex noise 
-x <- 2*cos(2 * pi * omega1 * (1:N)) +1.0i*cos(2 * pi * omega1 * (1:N)) + 1.0i*rnorm(N, 0.1) + rnorm(N, 0.1) 
-s <- ssa(x, kind = 'cssa')
-plot(s, type="vectors")
-plot(s, type="paired")
-plot.d1(s)
+d_A <- data.frame(T_A = r$T$A,  X_A = F$A, N = 1:N.A)
+xyplot(X_A  + T_A  ~ N, data = d_A, type ='l')
+d_B <- data.frame(T_B = r$T$B,  X_B = F$B, N = 1:N.B)
+xyplot(X_B  + T_B  ~ N, data = d_B, type ='l')
 
-g <- draft.grouping.auto(s, grouping.method = "tau.cssa", all.pairs=TRUE, treshold=0.007)
-print(g)
+# trend
+# factor
+g <- draft.grouping.auto(s, grouping.method = 'low.freq.mssa', base='factor', freq.bins = list(0.01), threshold = 0.9)
+print(g$F1)
+r <- reconstruct(s, groups = list(T = g$F1))
 
-# d = 1 + trend 
-x <- exp(0.01 * (1:N)) + cos(2 * pi * omega1 * (1:N)) +  cos(2 * pi * omega1 * (1:N)) +1.0i*sin(2 * pi * omega1 * (1:N)) + 1.0i*rnorm(N, 0.1) 
-s <- ssa(x, kind = 'cssa')
-plot(s, type="vectors")
-plot(s, type="paired")
-plot.d1(s)
+d_A <- data.frame(T_A = r$T$A,  X_A = F$A, N = 1:N.A)
+xyplot(X_A  + T_A  ~ N, data = d_A, type ='l')
+d_B <- data.frame(T_B = r$T$B,  X_B = F$B, N = 1:N.B)
+xyplot(X_B  + T_B  ~ N, data = d_B, type ='l')
 
-g <- draft.grouping.auto(s, grouping.method = "tau.cssa", all.pairs=TRUE, treshold=0.01)
-print(g)
+# trend
+# eigen
+g <- draft.grouping.auto(s, grouping.method = 'low.freq.mssa', base='eigen', freq.bins = list(0.01), threshold = 0.9)
+print(g$F1)
+r <- reconstruct(s, groups = list(T = g$F1))
+
+d_A <- data.frame(T_A = r$T$A,  X_A = F$A, N = 1:N.A)
+xyplot(X_A  + T_A  ~ N, data = d_A, type ='l')
+d_B <- data.frame(T_B = r$T$B,  X_B = F$B, N = 1:N.B)
+xyplot(X_B  + T_B  ~ N, data = d_B, type ='l')
 
 
 ### 2D-SSA
