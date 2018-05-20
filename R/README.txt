@@ -13,7 +13,6 @@ tau.cssa.R
 pair.freq.1dssa.R
 
 # low frequency method
-low.freq.1dssa.R
 low.freq.cssa.R
 low.freq.mssa.R
 low.freq.2dssa.R

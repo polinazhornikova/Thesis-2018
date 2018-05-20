@@ -55,6 +55,17 @@ pgram_2d <- function(x,n) {
   list(spec = spec, freq1 = freq1, freq2 = freq2)
 }
 
+# tau
+angle.fun <- function(P,Q){
+  angle <- function(P1,P2,Q1,Q2){
+    t <- acos((P1*P2 + Q1*Q2)/sqrt(P1^2+Q1^2)/sqrt(P2^2+Q2^2))
+    t[!is.nan(t)]
+  }
+  vv <- var(angle(P[-length(P)],P[-1],Q[-length(Q)],Q[-1]))
+  mm <- mean(angle(P[-length(P)],P[-1],Q[-length(Q)],Q[-1]))
+  vv/min(1,mm^2)
+}
+
 source('pair.freq.1dssa.R')
 source('low.freq.2dssa.R')
 source('tau.1dssa.R')

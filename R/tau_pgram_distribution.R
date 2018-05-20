@@ -1,43 +1,6 @@
-library(Rssa)
 library(lattice)
-library(latticeExtra)
-library(ggplot2)
 library(xtable)
-
-
-angle.fun <- function(P,Q){
-  angle <- function(P1,P2,Q1,Q2){
-    acos((P1*P2 + Q1*Q2)/sqrt(P1^2+Q1^2)/sqrt(P2^2+Q2^2))
-  }
-  var(angle(P[-length(P)],P[-1],Q[-length(Q)],Q[-1]))
-}
-
-pgram_fun <- function(x) {
-  if (!is.matrix(x)) x <- as.matrix(x)
-  stopifnot(all(is.finite(x)))
-  
-  X <- mvfft(x)
-  n <- nrow(x)
-  
-  N <- n %/% 2 + 1
-  spec <- abs(X[seq_len(N),, drop = FALSE])^2
-  
-  if (n %% 2 == 0) {
-    if (N > 2) spec[2:(N-1), ] <- 2 * spec[2:(N-1), ]
-  } else {
-    if (N >= 2) spec[2:N, ] <- 2 * spec[2:N, ]
-  }
-  
-  freq <- seq(0, 1, length.out = n + 1)[seq_len(N)]
-  
-  cumspecfuns <- lapply(seq_len(ncol(x)),
-                        function(j)
-                          approxfun(c(0, freq[-N] + 1/(2*n), 0.5),
-                                    c(0, cumsum(spec[, j])),
-                                    rule = 2))
-  
-  list(spec = spec, freq = freq, cumspecfuns = cumspecfuns)
-}
+source('main.grouping.auto.R')
 
 get_rho <- function(x, groups=(1:2),  s_0 = 1){
   L <- x$window
@@ -51,8 +14,8 @@ get_rho <- function(x, groups=(1:2),  s_0 = 1){
   
   Fs <- x$U[, groups, drop = FALSE]
   # periodogram
-  pgs <- pgram_fun(Fs)
-  pgs$spec <- pgs$spec / n
+  pgs <- pgram_1d(Fs)
+  pgs$spec <- pgs$spec / L
   
   ### part one
   
@@ -84,7 +47,7 @@ sigma_l <- c(0.2,0.4,0.6,0.8,1)
 name_sigma <- numeric(length(sigma_l))
 i <- 1
 for (sigma in sigma_l){
-  name_sigma[i] <- paste0('sigma = ',sigma)
+  name_sigma[i] <- paste0('$\sigma$ = ',sigma)
   i <- i + 1
 }
 
@@ -191,6 +154,7 @@ res_noise_tau1 <- res_noise_tau1[-1,]
 res_signal_pgram <- res_signal_pgram[-1,]
 res_noise_pgram <- res_noise_pgram[-1,]
 rownames(res_signal_tau1) <- rownames(res_noise_tau1) <- name_sigma
+rownames(res_signal_pgram) <- rownames(res_noise_pgram) <- name_sigma
 
 xtable(res_signal_tau1, digits = 5)
 xtable(res_noise_tau1, digits = 4)
@@ -312,6 +276,7 @@ res_noise_tau1 <- res_noise_tau1[-1,]
 res_signal_pgram <- res_signal_pgram[-1,]
 res_noise_pgram <- res_noise_pgram[-1,]
 rownames(res_signal_tau1) <- rownames(res_noise_tau1) <- name_sigma
+rownames(res_signal_pgram) <- rownames(res_noise_pgram) <- name_sigma
 
 xtable(res_signal_tau1, digits = 5)
 xtable(res_noise_tau1, digits = 3)
@@ -330,8 +295,4 @@ xtable(overlap_pgram, digits = 2)
 tau_1 <- overlap_tau1
 pgram <- overlap_pgram
 xtable(cbind(tau_1,pgram), digits = c(2,5,2))
-
-
-
-
 
