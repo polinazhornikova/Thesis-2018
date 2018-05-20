@@ -43,7 +43,7 @@ xyplot(X + S ~ N, data = d, type ='l')
 
 
 ### CSSA
-x <- exp(0.01 * (1:N)) + cos(2 * pi * omega1 * (1:N)) +1.0i*sin(2 * pi * omega1 * (1:N)) + 1.0i*cos(2 * pi * omega2 * (1:N)) +rnorm(N, 0.2) 
+x <- exp(0.01 * (1:N)) + cos(2 * pi * omega1 * (1:N)) +1.0i*sin(2 * pi * omega1 * (1:N)) + 1.0i*exp(0.007 * (1:N))*cos(2 * pi * omega2 * (1:N)) +rnorm(N, 0.2) 
 s <- ssa(x, kind = 'cssa')
 plot(s, type="vectors")
 
@@ -82,6 +82,19 @@ print(g$d1_idx)
 print(g$d2_idx)
 # print(g$tau_d2)
 r <- reconstruct(s, groups = list(S=c(g$d1_idx, g$d2_idx)))
+d_re <- data.frame(S_re = Re(r$S),  X_re = Re(x),N = 1:N)
+xyplot(X_re  + S_re  ~ N, data = d_re, type ='l')
+d_im <- data.frame(S_im = Im(r$S), X_im = Im(x), N = 1:N)
+xyplot(X_im + S_im ~ N, data = d_im, type ='l')
+
+# e-m garm
+# paired frequency
+plot.d1(s)
+plot(s, type="paired")
+g <- draft.grouping.auto(s, grouping.method = "pair.freq.cssa")
+print(g)
+
+r <- reconstruct(s, groups = list(S=g))
 d_re <- data.frame(S_re = Re(r$S),  X_re = Re(x),N = 1:N)
 xyplot(X_re  + S_re  ~ N, data = d_re, type ='l')
 d_im <- data.frame(S_im = Im(r$S), X_im = Im(x), N = 1:N)

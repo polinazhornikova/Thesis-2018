@@ -47,7 +47,7 @@ sigma_l <- c(0.2,0.4,0.6,0.8,1)
 name_sigma <- numeric(length(sigma_l))
 i <- 1
 for (sigma in sigma_l){
-  name_sigma[i] <- paste0('$\sigma$ = ',sigma)
+  name_sigma[i] <- paste0('sigma = ',sigma)
   i <- i + 1
 }
 

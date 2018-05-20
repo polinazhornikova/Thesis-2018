@@ -3,8 +3,6 @@ source('pair.freq.1dssa.R')
 
 library(Rssa)
 library(lattice)
-library(latticeExtra)
-library(ggplot2)
 library(xtable)
 
 
@@ -16,15 +14,14 @@ error <- function(x, y, alpha){
 }
 
 #number of simulations
-n_rep <- 2
+n_rep <- 200
 
 N <- 99
 L <- 50
-alpha <- 0.02
+alpha <- 0
+# alpha <- 0.02
 sigma_l <- c(0.2,0.4,0.6,0.8,1)
-# sigma_l <- 0.1
 omega <- 1/7
-# omega <- 1/10
 
 # for threshold 
 left <- 0
@@ -35,7 +32,7 @@ M <- (right - left) / delta
 name_sigma <- numeric(length(sigma_l))
 i <- 1
 for (sigma in sigma_l){
-  name_sigma[i] <- paste0('sigma = ',sigma)
+  name_sigma[i] <- paste0("sigma = ",sigma)
   i <- i + 1
 }
 
@@ -62,7 +59,7 @@ for (sigma in sigma_l){
     err_pgram_k <- numeric(n_rep)
     
     for (k in (1:M)){
-      idx_tau1 <- draft.grouping.auto.tau.1dssa(s, threshold = delta*k)
+      idx_tau1 <- draft.grouping.auto.tau.1dssa(s, threshold = delta*k)$idx
       rec_tau1 <- reconstruct(s, groups = list(idx_tau1))
       x_recon_tau1 <- rec_tau1$F1
       
@@ -87,7 +84,7 @@ for (sigma in sigma_l){
     rec_V <- reconstruct(s, groups = list(1:2))
     x_recon_V <- rec_V$F1
     
-    idx_tau1 <- draft.grouping.auto.tau.1dssa(s, threshold = threshold)
+    idx_tau1 <- draft.grouping.auto.tau.1dssa(s, threshold = threshold)$idx
     rec_tau1 <- reconstruct(s, groups = list(idx_tau1))
     x_recon_tau1 <- rec_tau1$F1
     
@@ -107,7 +104,7 @@ for (sigma in sigma_l){
   
   d <-  data.frame(err_tau1, err_pgram)
   
-  write.table(d,paste0('err_alpha',alpha,'_omega',omega,'_sigma',sigma,'.txt'))
+  write.table(d,paste0('error_tau_pgram\\err_alpha',alpha,'_omega',omega,'_sigma',sigma,'.txt'))
 }
 
 
@@ -120,7 +117,7 @@ rownames(results) <- name_sigma
 
 i <- 1
 for (sigma in sigma_l){
-  d <- read.table(paste0('err_alpha',alpha,'_omega',omega,'_sigma',sigma,'.txt'))
+  d <- read.table(paste0('error_tau_pgram\\err_alpha',alpha,'_omega',omega,'_sigma',sigma,'.txt'))
   results$mean_tau_1[i] <- mean(d[,1])
   results$median_tau_1[i] <- median(d[,1])
   results$mean_pgram[i] <- mean(d[,2])
