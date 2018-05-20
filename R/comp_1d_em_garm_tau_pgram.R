@@ -18,8 +18,8 @@ n_rep <- 200
 
 N <- 99
 L <- 50
-alpha <- 0
-# alpha <- 0.02
+# alpha <- 0
+alpha <- 0.02
 sigma_l <- c(0.2,0.4,0.6,0.8,1)
 omega <- 1/7
 

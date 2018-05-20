@@ -109,7 +109,7 @@ omega2 <- 0.05
 tt.A <- 1:N.A
 tt.B <- 1:N.B
 F1 <- list(A = 2 * sin(2*pi * omega1 * tt.A), B = cos(2*pi * omega1 * tt.B))
-F2 <- list(A = 1 * sin(2*pi * omega2 * tt.A), B = cos(2*pi * omega2 * tt.B))
+F2 <- list(A = 1 * sin(2*pi * 0.5 * tt.A), B = cos(2*pi * 0.5 * tt.B))
 F3 <- list(A = exp(0.01 * tt.A))
 F4 <- list(A=rnorm(tt.A), B=rnorm(tt.B))
 F <- list(A = F1$A + F2$A + F3$A+ F4$A, B = F1$B + F2$B + F4$B)
@@ -149,6 +149,32 @@ d_A <- data.frame(T_A = r$T$A,  X_A = F$A, N = 1:N.A)
 xyplot(X_A  + T_A  ~ N, data = d_A, type ='l')
 d_B <- data.frame(T_B = r$T$B,  X_B = F$B, N = 1:N.B)
 xyplot(X_B  + T_B  ~ N, data = d_B, type ='l')
+
+# e-m garm
+# paired frequency
+# eigen
+plot(s, type="paired")
+g <- draft.grouping.auto(s, grouping.method = "pair.freq.mssa", base='eigen', rho_0 = 0.95)
+print(g)
+
+r <- reconstruct(s, groups = list(S=c(g$I_1, g$I_2)))
+d_A <- data.frame(S_A = r$S$A,  X_A = F$A, N = 1:N.A)
+xyplot(X_A  + S_A  ~ N, data = d_A, type ='l')
+d_B <- data.frame(S_B = r$S$B,  X_B = F$B, N = 1:N.B)
+xyplot(X_B  + S_B  ~ N, data = d_B, type ='l')
+
+# e-m garm
+# paired frequency
+# factor
+plot(s, type="paired")
+g <- draft.grouping.auto(s, grouping.method = "pair.freq.mssa", base='factor', rho_0 = 0.9)
+print(g)
+
+r <- reconstruct(s, groups = list(S=c(g$I_1, g$I_2)))
+d_A <- data.frame(S_A = r$S$A,  X_A = F$A, N = 1:N.A)
+xyplot(X_A  + S_A  ~ N, data = d_A, type ='l')
+d_B <- data.frame(S_B = r$S$B,  X_B = F$B, N = 1:N.B)
+xyplot(X_B  + S_B  ~ N, data = d_B, type ='l')
 
 
 ### 2D-SSA
