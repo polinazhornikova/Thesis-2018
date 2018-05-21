@@ -150,6 +150,19 @@ xyplot(X_A  + T_A  ~ N, data = d_A, type ='l')
 d_B <- data.frame(T_B = r$T$B,  X_B = F$B, N = 1:N.B)
 xyplot(X_B  + T_B  ~ N, data = d_B, type ='l')
 
+
+# e-m garm
+# tau
+plot(s, type="paired")
+g <- draft.grouping.auto(s, grouping.method = "tau.mssa", threshold = 0.01)
+print(g$idx)
+
+r <- reconstruct(s, groups = list(S=g$idx))
+d_A <- data.frame(S_A = r$S$A,  X_A = F$A, N = 1:N.A)
+xyplot(X_A  + S_A  ~ N, data = d_A, type ='l')
+d_B <- data.frame(S_B = r$S$B,  X_B = F$B, N = 1:N.B)
+xyplot(X_B  + S_B  ~ N, data = d_B, type ='l')
+
 # e-m garm
 # paired frequency
 # eigen

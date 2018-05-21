@@ -72,6 +72,7 @@ source('pair.freq.mssa.R')
 source('low.freq.2dssa.R')
 source('tau.1dssa.R')
 source('tau.cssa.R')
+source('tau.mssa.R')
 source('low.freq.cssa.R')
 source('low.freq.mssa.R')
 
@@ -79,7 +80,7 @@ source('low.freq.mssa.R')
 draft.grouping.auto <- function(x, ...,
                           grouping.method = c("pair.freq.1dssa", "tau.1dssa","tau.cssa",
                                               "low.freq.2dssa","low.freq.cssa","low.freq.mssa",
-                                              "pair.freq.cssa", "pair.freq.mssa")) {
+                                              "pair.freq.cssa", "pair.freq.mssa", "tau.mssa")) {
   switch(match.arg(grouping.method),
          pair.freq.1dssa = draft.grouping.auto.pair.freq.1dssa(x, ...),
          tau.1dssa  = draft.grouping.auto.tau.1dssa(x, ...),
@@ -88,5 +89,6 @@ draft.grouping.auto <- function(x, ...,
          low.freq.cssa  = draft.grouping.auto.low.freq.cssa(x, ...),
          low.freq.mssa  = draft.grouping.auto.low.freq.mssa(x, ...),
          pair.freq.cssa  = draft.grouping.auto.pair.freq.cssa(x, ...),
-         pair.freq.mssa  = draft.grouping.auto.pair.freq.mssa(x, ...))
+         pair.freq.mssa  = draft.grouping.auto.pair.freq.mssa(x, ...),
+         tau.mssa  = draft.grouping.auto.tau.mssa(x, ...))
 }
