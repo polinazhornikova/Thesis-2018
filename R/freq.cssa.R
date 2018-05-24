@@ -1,4 +1,4 @@
-draft.grouping.auto.pair.freq.cssa <- function(x, groups,  s_0 = 1, rho_0 = 0.9,...){
+draft.grouping.auto.freq.cssa <- function(x, groups,  s_0 = 1, rho_0 = 0.9,...){
   L <- x$window
   n <- nu(x)
   max_k <- length((0:(L %/% 2)) / L)

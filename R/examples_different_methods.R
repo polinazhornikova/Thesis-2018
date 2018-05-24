@@ -26,7 +26,7 @@ xyplot(X + T ~ N, data = d, type ='l')
 
 # e-m garm
 # tau 
-g <- draft.grouping.auto(s, grouping.method = "tau.1dssa")
+g <- draft.grouping.auto(s, с = "tau.1dssa")
 print(g$idx)
 # print(g$tau)
 r <- reconstruct(s, groups = list(S = g$idx))
@@ -35,7 +35,7 @@ xyplot(X + S ~ N, data = d, type ='l')
 
 # e-m garm
 # paired frequency
-g <- draft.grouping.auto(s, grouping.method = "pair.freq.1dssa")
+g <- draft.grouping.auto(s, grouping.method = "freq.1dssa")
 print(g)
 r <- reconstruct(s, groups = list(S=c(g$I_1, g$I_2)))
 d <- data.frame(S = r$S, X = x, N = 1:N)
@@ -91,7 +91,7 @@ xyplot(X_im + S_im ~ N, data = d_im, type ='l')
 # paired frequency
 plot.d1(s)
 plot(s, type="paired")
-g <- draft.grouping.auto(s, grouping.method = "pair.freq.cssa")
+g <- draft.grouping.auto(s, grouping.method = "freq.cssa")
 print(g)
 
 r <- reconstruct(s, groups = list(S=g))
@@ -167,7 +167,7 @@ xyplot(X_B  + S_B  ~ N, data = d_B, type ='l')
 # paired frequency
 # eigen
 plot(s, type="paired")
-g <- draft.grouping.auto(s, grouping.method = "pair.freq.mssa", base='eigen', rho_0 = 0.95)
+g <- draft.grouping.auto(s, grouping.method = "freq.mssa", base='eigen', rho_0 = 0.95)
 print(g)
 
 r <- reconstruct(s, groups = list(S=c(g$I_1, g$I_2)))
@@ -180,7 +180,7 @@ xyplot(X_B  + S_B  ~ N, data = d_B, type ='l')
 # paired frequency
 # factor
 plot(s, type="paired")
-g <- draft.grouping.auto(s, grouping.method = "pair.freq.mssa", base='factor', rho_0 = 0.9)
+g <- draft.grouping.auto(s, grouping.method = "freq.mssa", base='factor', rho_0 = 0.9)
 print(g)
 
 r <- reconstruct(s, groups = list(S=c(g$I_1, g$I_2)))

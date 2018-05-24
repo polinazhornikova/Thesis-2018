@@ -1,4 +1,4 @@
-draft.grouping.auto.pair.freq.mssa <- function(x, groups, s_0 = 1, rho_0 = 0.9,  
+draft.grouping.auto.freq.mssa <- function(x, groups, s_0 = 1, rho_0 = 0.9,  
                                                base = c("eigen", "factor"),...){
   
   base <- match.arg(base)

@@ -2,7 +2,7 @@
 # I1 are the indices of the components with omega = 0.5
 # I2 are the indices of other components (with omega != 0.5)
 
-draft.grouping.auto.pair.freq.1dssa <- function(x, groups,  s_0 = 1, rho_0 = 0.9,...){
+draft.grouping.auto.freq.1dssa <- function(x, groups,  s_0 = 1, rho_0 = 0.9,...){
   L <- x$window
   n <- nu(x)
   max_k <- length((0:(L %/% 2)) / L)

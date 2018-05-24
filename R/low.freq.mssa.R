@@ -1,7 +1,7 @@
 draft.grouping.auto.low.freq.mssa <- function(x, groups,
                                               base = c("series", "eigen", "factor"),
-                                              freq.bins = 2,
-                                              threshold = 0,
+                                              freq.bins = list(0.01),
+                                              threshold = 0.9,
                                               method = c("constant", "linear"),
                                               ...,
                                               drop = TRUE) {
