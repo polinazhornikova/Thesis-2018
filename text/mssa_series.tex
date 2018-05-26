@@ -1,0 +1,16 @@
+\begin{CodeChunk}
+\begin{CodeInput}
+
+
+> tt.A <- 1:N.A
+> tt.B <- 1:N.B
+> X1 <- list(A = 2 * sin(2*pi * omega1 * tt.A), B = cos(2*pi * omega1 * tt.B))
+> X2 <- list(A = sin(2*pi * 0.5 * tt.A), B = cos(2*pi * 0.5 * tt.B))
+> X3 <- list(A = exp(0.01 * tt.A))
+> X4 <- list(A=rnorm(tt.A, 1), B=rnorm(tt.B, 1))
+> X <- list(A = X1$A + X2$A + X3$A+ X4$A, B = X1$B + X2$B + X4$B)
+> s <- ssa(X, kind = "mssa")
+> plot(s,type='vectors')
+\end{CodeInput}
+
+\end{CodeChunk}

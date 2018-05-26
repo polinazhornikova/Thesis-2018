@@ -2,11 +2,12 @@
 \begin{CodeInput}
 
 
-> d <- data.frame(x = exp(0.01 * (1:N)) + 2*cos(2 * pi * omega1 * (1:N)) +  
+> x <- exp(0.01 * (1:N)) + 2*cos(2 * pi * omega1 * (1:N)) +  
 +   exp(0.009 * (1:N)) * cos(2 * pi * omega2 * (1:N)) + 
-+   2*cos(2 * pi * 0.5 * (1:N))+ rnorm(N,1.2), N = 1:N)
-> xyplot(x ~ N, data=d, type="l")
-> s <- ssa(x)
++   2*cos(2 * pi * 0.5 * (1:N))+ rnorm(N,1.5)
+> s <- ssa(x, L = 100)
+> plot(s, type="vectors", layout = c(5, 2))
+> plot(s, type="paired", layout = c(5, 2))
 \end{CodeInput}
 
 \end{CodeChunk}

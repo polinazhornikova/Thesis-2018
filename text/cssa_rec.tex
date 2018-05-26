@@ -1,0 +1,11 @@
+\begin{CodeChunk}
+\begin{CodeInput}
+
+
+> r <- reconstruct(s, groups = list(T = g_trend, P = c(g_em_tau$d1_idx, 
++                                                      g_em_tau$d2_idx)))
+> d_re <- data.frame(T_re = Re(r$T), P_re = Re(r$P),  X_re = Re(x), N = 1:N)
+> xyplot(T_re + P_re + X_re  ~ N, data = d_re, type ='l')
+\end{CodeInput}
+
+\end{CodeChunk}

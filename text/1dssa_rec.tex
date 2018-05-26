@@ -1,0 +1,12 @@
+\begin{CodeChunk}
+\begin{CodeInput}
+
+
+> r <- reconstruct(s, groups = list(T = g_trend, P = c(g_em_freq$I_1, 
++                                                      g_em_freq$I_2)))
+> d <- data.frame(X=x, N=1:N, T=r$T, P=r$P)
+> xyplot(T + P +X ~ N, data = d, type ='l', ylab = '',
++        auto.key = list(points = FALSE, lines = TRUE))
+\end{CodeInput}
+
+\end{CodeChunk}

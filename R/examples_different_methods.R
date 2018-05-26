@@ -13,20 +13,14 @@ plot(s, type="vectors")
 plot(s, type="paired")
 
 # trend
-g <- grouping.auto(
-  s,
-  grouping.method = 'pgram',
-  freq.bins = list(0.01)
-  ,
-  threshold = 0.9
-)
-r <- reconstruct(s, groups = list(T = g))
-d <- data.frame(T = r$T, X = x, N = 1:N)
-xyplot(X + T ~ N, data = d, type ='l')
+g_trend <- grouping.auto(s, grouping.method = 'pgram',
+                   freq.bins = list(0.01), threshold = 0.9)
+print(g_trend$F1)
+
 
 # e-m garm
 # tau 
-g <- draft.grouping.auto(s, с = "tau.1dssa")
+g <- draft.grouping.auto(s, grouping.method = "tau.1dssa")
 print(g$idx)
 # print(g$tau)
 r <- reconstruct(s, groups = list(S = g$idx))
@@ -109,7 +103,7 @@ omega2 <- 0.05
 tt.A <- 1:N.A
 tt.B <- 1:N.B
 F1 <- list(A = 2 * sin(2*pi * omega1 * tt.A), B = cos(2*pi * omega1 * tt.B))
-F2 <- list(A = 1 * sin(2*pi * 0.5 * tt.A), B = cos(2*pi * 0.5 * tt.B))
+F2 <- list(A = sin(2*pi * 0.5 * tt.A), B = cos(2*pi * 0.5 * tt.B))
 F3 <- list(A = exp(0.01 * tt.A))
 F4 <- list(A=rnorm(tt.A), B=rnorm(tt.B))
 F <- list(A = F1$A + F2$A + F3$A+ F4$A, B = F1$B + F2$B + F4$B)
@@ -191,22 +185,6 @@ xyplot(X_B  + S_B  ~ N, data = d_B, type ='l')
 
 
 ### 2D-SSA
-plot2d <- function(x) {
-  regions <- list(col = colorRampPalette(grey(c(0, 1))));
-  m <- t(x)
-  d = data.frame(x=rep(seq(0, nrow(m), length=nrow(m)), ncol(m)), 
-                 y=rep(seq(0, ncol(m), length=ncol(m)), each=nrow(m)), 
-                 z=c(m))
-  levelplot(z~x*y, data=d, aspect = "iso",
-            par.settings = list(regions = regions), colorkey = TRUE,
-            xlab = "", ylab = "", scales=list(x=list(at=c(0, 50, 100, 150) 
-                                                     # ,labels=c('0','1/3','2/3','1')
-            ),
-            y=list(at=c(0, 50, 100)
-                   # ,labels=c('0','1/2','1')
-            )))
-}
-
 N <- 99
 M <- 149
 alpha <- 0.01
@@ -222,19 +200,21 @@ for (i in (1:N)){
 }
 matr_cos_rank2 <- matr
 
+plot2d(matr_cos_rank2)
+
 for (i in (1:N)){
   for (j in (1:M)){
-    matr[i,j] <- cos(2 * pi * omega1 * i) * cos(2 * pi * omega2 *j) + rnorm(1,sd=0.01)
+    matr[i,j] <- cos(2 * pi * omega1 * i) * cos(2 * pi * omega2 *j) + rnorm(1,sd=0.03)
   }
 }
 
 matr_cos_rank4 <- matr
 
-plot2d(matr_cos_rank2)
+
 plot2d(matr_cos_rank4)
 
 s_rank4 <- ssa(matr_cos_rank4, kind = "2d-ssa", L = c(50, 50))
-plot(s_rank4, type = "vectors", cuts = 255, layout = c(8, 4))
+plot(s_rank4, type = "vectors", cuts = 255, layout = c(5, 2))
 
 g <- draft.grouping.auto(s_rank4, grouping.method="low.freq.2dssa", freq.bins1 = 0.15,freq.bins2 = 0.15,
                          threshold = 0.7)
