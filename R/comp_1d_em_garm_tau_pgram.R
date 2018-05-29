@@ -59,11 +59,11 @@ for (sigma in sigma_l){
     err_pgram_k <- numeric(n_rep)
     
     for (k in (1:M)){
-      idx_tau1 <- draft.grouping.auto.tau.1dssa(s, threshold = delta*k)$idx
+      idx_tau1 <- general.grouping.auto.tau.1dssa(s, threshold = delta*k)$idx
       rec_tau1 <- reconstruct(s, groups = list(idx_tau1))
       x_recon_tau1 <- rec_tau1$F1
       
-      idx_pgram <- draft.grouping.auto.pair.freq.1dssa(s, rho_0 = delta*k)$I_1
+      idx_pgram <- general.grouping.auto.pair.freq.1dssa(s, rho_0 = delta*k)$I_1
       rec_pgram <- reconstruct(s, groups = list(idx_pgram))
       x_recon_pgram <- rec_pgram$F1
       
@@ -84,11 +84,11 @@ for (sigma in sigma_l){
     rec_V <- reconstruct(s, groups = list(1:2))
     x_recon_V <- rec_V$F1
     
-    idx_tau1 <- draft.grouping.auto.tau.1dssa(s, threshold = threshold)$idx
+    idx_tau1 <- general.grouping.auto.tau.1dssa(s, threshold = threshold)$idx
     rec_tau1 <- reconstruct(s, groups = list(idx_tau1))
     x_recon_tau1 <- rec_tau1$F1
     
-    idx_pgram <- draft.grouping.auto.pair.freq.1dssa(s, rho_0 = rho_0)$I_1
+    idx_pgram <- general.grouping.auto.pair.freq.1dssa(s, rho_0 = rho_0)$I_1
     rec_pgram <- reconstruct(s, groups = list(idx_pgram))
     x_recon_pgram <- rec_pgram$F1
     

@@ -8,7 +8,7 @@ optim.turn <- function(P, Q, fun){
   list(tau = opt$objective, t_min = opt$minimum)
 }
 
-draft.grouping.auto.tau.cssa <- function(x, threshold = 0.01, numcomp1=0, numcomp2=0, 
+general.grouping.auto.tau.cssa <- function(x, threshold = 0.01, numcomp1=0, numcomp2=0, 
                                          groups, all.pairs=FALSE, f=angle.fun,...){
   if (missing(groups)) {
     groups <- 1:nu(x)
@@ -99,6 +99,6 @@ draft.grouping.auto.tau.cssa <- function(x, threshold = 0.01, numcomp1=0, numcom
   
   idx_final_2 <- idx_final_2[-which(idx_final_2 %in% idx_final_1)]
   
-  list(d1_idx = unique(sort(idx_final_1)), d2_idx = unique(sort(idx_final_2)),
+  list(idx = unique(sort(c(idx_final_1, idx_final_2))),
        tau_d1 = tau_d1, tau_d2 = tau_d2)
 }

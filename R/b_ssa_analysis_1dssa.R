@@ -27,22 +27,22 @@ fragmentStop()
 ###Fragment 1dssa_trend
 fragmentStart("fragments_ch1/1dssa_trend.tex")
 g_trend <- grouping.auto(s, grouping.method = 'pgram',
-  freq.bins = list(0.01), threshold = 0.9)
+                         freq.bins = list(0.01), threshold = 0.9)
 print(g_trend$F1)
 fragmentStop()
 ###end 
 
 ###Fragment 1dssa_em_freq
 fragmentStart("fragments_ch1/1dssa_em_freq.tex")
-g_em_freq <- draft.grouping.auto(s, grouping.method = "freq.1dssa", s_0 = 1, 
-                                 rho_0 = 0.9)
+g_em_freq <- general.grouping.auto(s, grouping.method = "freq.1dssa", s_0 = 1, 
+                                   rho_0 = 0.9)
 print(g_em_freq)
 fragmentStop()
 ###end 
 
 ###Fragment 1dssa_em_tau
 fragmentStart("fragments_ch1/1dssa_em_tau.tex")
-g_em_tau <- draft.grouping.auto(s, grouping.method = "tau.1dssa", treshold = 0.01)
+g_em_tau <- general.grouping.auto(s, grouping.method = "tau.1dssa", treshold = 0.01)
 print(g_em_tau$idx)
 fragmentStop()
 ###end 

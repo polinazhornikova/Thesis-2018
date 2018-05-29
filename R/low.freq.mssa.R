@@ -1,4 +1,4 @@
-draft.grouping.auto.low.freq.mssa <- function(x, groups,
+general.grouping.auto.low.freq.mssa <- function(x, groups,
                                               base = c("series", "eigen", "factor"),
                                               freq.bins = list(0.01),
                                               threshold = 0.9,

@@ -28,9 +28,9 @@ fragmentStop()
 
 ###Fragment mssa_trend
 fragmentStart("fragments_ch1/mssa_trend.tex")
-g_trend <- draft.grouping.auto(s, grouping.method = 'low.freq.mssa', 
-                               base='factor',
-                               freq.bins = list(0.01), threshold = 0.9)
+g_trend <- general.grouping.auto(s, grouping.method = 'low.freq.mssa', 
+                                 base='factor',
+                                 freq.bins = list(0.01), threshold = 0.9)
 print(g_trend$F1)
 fragmentStop()
 ###end 
@@ -38,15 +38,15 @@ fragmentStop()
 
 ###Fragment mssa_em_freq
 fragmentStart("fragments_ch1/mssa_em_freq.tex")
-g_em_freq <- draft.grouping.auto(s, grouping.method = "freq.mssa", base='factor',
-                                 s_0 = 1, rho_0 = 0.9)
+g_em_freq <- general.grouping.auto(s, grouping.method = "freq.mssa", base='factor',
+                                   s_0 = 1, rho_0 = 0.9)
 print(g_em_freq)
 fragmentStop()
 ###end 
 
 ###Fragment mssa_em_tau
 fragmentStart("fragments_ch1/mssa_em_tau.tex")
-g_em_tau <- draft.grouping.auto(s, grouping.method = "tau.mssa", treshold = 0.02)
+g_em_tau <- general.grouping.auto(s, grouping.method = "tau.mssa", treshold = 0.02)
 print(g_em_tau$idx)
 fragmentStop()
 ###end 

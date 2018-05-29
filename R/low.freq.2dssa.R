@@ -1,4 +1,4 @@
-draft.grouping.auto.low.freq.2dssa <- function(x, groups, freq.bins1 = 0.1,
+general.grouping.auto.low.freq.2dssa <- function(x, groups, freq.bins1 = 0.1,
                                         freq.bins2 = 0.1,
                                         threshold = 0.8,
                                         base = c("series", "eigen"),...) {

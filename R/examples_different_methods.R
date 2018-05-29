@@ -14,13 +14,13 @@ plot(s, type="paired")
 
 # trend
 g_trend <- grouping.auto(s, grouping.method = 'pgram',
-                   freq.bins = list(0.01), threshold = 0.9)
+                         freq.bins = list(0.01), threshold = 0.9)
 print(g_trend$F1)
 
 
 # e-m garm
 # tau 
-g <- draft.grouping.auto(s, grouping.method = "tau.1dssa")
+g <- general.grouping.auto(s, grouping.method = "tau.1dssa")
 print(g$idx)
 # print(g$tau)
 r <- reconstruct(s, groups = list(S = g$idx))
@@ -29,7 +29,7 @@ xyplot(X + S ~ N, data = d, type ='l')
 
 # e-m garm
 # paired frequency
-g <- draft.grouping.auto(s, grouping.method = "freq.1dssa")
+g <- general.grouping.auto(s, grouping.method = "freq.1dssa")
 print(g)
 r <- reconstruct(s, groups = list(S=c(g$I_1, g$I_2)))
 d <- data.frame(S = r$S, X = x, N = 1:N)
@@ -42,7 +42,7 @@ s <- ssa(x, kind = 'cssa')
 plot(s, type="vectors")
 
 # trend
-g <- draft.grouping.auto(s, grouping.method = 'low.freq.cssa', freq.bins = list(0.01), threshold = 0.9)
+g <- general.grouping.auto(s, grouping.method = 'low.freq.cssa', freq.bins = list(0.01), threshold = 0.9)
 print(g$F1)
 r <- reconstruct(s, groups = list(T=g))
 d_re <- data.frame(T_re = Re(r$T),  X_re = Re(x),N = 1:N)
@@ -70,12 +70,11 @@ plot.d1 <- function(s,index=1:8){
 
 plot.d1(s)
 plot(s, type="paired")
-g <- draft.grouping.auto(s, grouping.method = "tau.cssa",  treshold=0.05)
-print(g$d1_idx)
+g <- general.grouping.auto(s, grouping.method = "tau.cssa",  treshold=0.05)
+print(g$idx)
 # print(g$tau_d1)
-print(g$d2_idx)
 # print(g$tau_d2)
-r <- reconstruct(s, groups = list(S=c(g$d1_idx, g$d2_idx)))
+r <- reconstruct(s, groups = list(S=g$d1))
 d_re <- data.frame(S_re = Re(r$S),  X_re = Re(x),N = 1:N)
 xyplot(X_re  + S_re  ~ N, data = d_re, type ='l')
 d_im <- data.frame(S_im = Im(r$S), X_im = Im(x), N = 1:N)
@@ -85,7 +84,7 @@ xyplot(X_im + S_im ~ N, data = d_im, type ='l')
 # paired frequency
 plot.d1(s)
 plot(s, type="paired")
-g <- draft.grouping.auto(s, grouping.method = "freq.cssa")
+g <- general.grouping.auto(s, grouping.method = "freq.cssa", rho_0 = 0.95)
 print(g)
 
 r <- reconstruct(s, groups = list(S=g))
@@ -113,7 +112,7 @@ plot(s,type='vectors')
 
 # trend
 # series
-g <- draft.grouping.auto(s, grouping.method = 'low.freq.mssa', base='series', freq.bins = list(0.01), threshold = 0.9)
+g <- general.grouping.auto(s, grouping.method = 'low.freq.mssa', base='series', freq.bins = list(0.01), threshold = 0.9)
 print(g$F1)
 r <- reconstruct(s, groups = list(T = g$F1))
 
@@ -124,7 +123,7 @@ xyplot(X_B  + T_B  ~ N, data = d_B, type ='l')
 
 # trend
 # factor
-g <- draft.grouping.auto(s, grouping.method = 'low.freq.mssa', base='factor', freq.bins = list(0.01), threshold = 0.9)
+g <- general.grouping.auto(s, grouping.method = 'low.freq.mssa', base='factor', freq.bins = list(0.01), threshold = 0.9)
 print(g$F1)
 r <- reconstruct(s, groups = list(T = g$F1))
 
@@ -135,7 +134,7 @@ xyplot(X_B  + T_B  ~ N, data = d_B, type ='l')
 
 # trend
 # eigen
-g <- draft.grouping.auto(s, grouping.method = 'low.freq.mssa', base='eigen', freq.bins = list(0.01), threshold = 0.9)
+g <- general.grouping.auto(s, grouping.method = 'low.freq.mssa', base='eigen', freq.bins = list(0.01), threshold = 0.9)
 print(g$F1)
 r <- reconstruct(s, groups = list(T = g$F1))
 
@@ -147,8 +146,9 @@ xyplot(X_B  + T_B  ~ N, data = d_B, type ='l')
 
 # e-m garm
 # tau
+# eigen
 plot(s, type="paired")
-g <- draft.grouping.auto(s, grouping.method = "tau.mssa", threshold = 0.01)
+g <- general.grouping.auto(s, grouping.method = "tau.mssa", threshold = 0.01)
 print(g$idx)
 
 r <- reconstruct(s, groups = list(S=g$idx))
@@ -158,10 +158,19 @@ d_B <- data.frame(S_B = r$S$B,  X_B = F$B, N = 1:N.B)
 xyplot(X_B  + S_B  ~ N, data = d_B, type ='l')
 
 # e-m garm
+# tau
+# factor
+plot(s, type="paired")
+g <- general.grouping.auto(s, grouping.method = "tau.mssa", threshold = 0.01,
+                           base = "factor")
+print(g$idx)
+
+
+# e-m garm
 # paired frequency
 # eigen
 plot(s, type="paired")
-g <- draft.grouping.auto(s, grouping.method = "freq.mssa", base='eigen', rho_0 = 0.95)
+g <- general.grouping.auto(s, grouping.method = "freq.mssa", base='eigen', rho_0 = 0.95)
 print(g)
 
 r <- reconstruct(s, groups = list(S=c(g$I_1, g$I_2)))
@@ -174,7 +183,7 @@ xyplot(X_B  + S_B  ~ N, data = d_B, type ='l')
 # paired frequency
 # factor
 plot(s, type="paired")
-g <- draft.grouping.auto(s, grouping.method = "freq.mssa", base='factor', rho_0 = 0.9)
+g <- general.grouping.auto(s, grouping.method = "freq.mssa", base='factor', rho_0 = 0.9)
 print(g)
 
 r <- reconstruct(s, groups = list(S=c(g$I_1, g$I_2)))
@@ -216,8 +225,8 @@ plot2d(matr_cos_rank4)
 s_rank4 <- ssa(matr_cos_rank4, kind = "2d-ssa", L = c(50, 50))
 plot(s_rank4, type = "vectors", cuts = 255, layout = c(5, 2))
 
-g <- draft.grouping.auto(s_rank4, grouping.method="low.freq.2dssa", freq.bins1 = 0.15,freq.bins2 = 0.15,
-                         threshold = 0.7)
+g <- general.grouping.auto(s_rank4, grouping.method="low.freq.2dssa", freq.bins1 = 0.15,freq.bins2 = 0.15,
+                           threshold = 0.7)
 print(g$g)
 r <- reconstruct(s_rank4, groups=list(g$g))
 plot2d(r$F1)
@@ -226,8 +235,8 @@ plot2d(r$F1)
 s_rank2 <- ssa(matr_cos_rank2, kind = "2d-ssa", L = c(50, 50))
 plot(s_rank2, type = "vectors", cuts = 255)
 
-g <- draft.grouping.auto(s_rank2, grouping.method="low.freq.2dssa", freq.bins1 = 0.1,freq.bins2 = 0.1,
-                         threshold = 0.4)
+g <- general.grouping.auto(s_rank2, grouping.method="low.freq.2dssa", freq.bins1 = 0.1,freq.bins2 = 0.1,
+                           threshold = 0.4)
 print(g$g)
 r <- reconstruct(s_rank4, groups=list(g$g))
 plot2d(r$F1)

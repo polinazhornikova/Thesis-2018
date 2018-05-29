@@ -78,18 +78,18 @@ source('tau.mssa.R')
 
 
 
-draft.grouping.auto <- function(x, ...,
-                          grouping.method = c("freq.1dssa", "tau.1dssa","tau.cssa",
-                                              "low.freq.2dssa","low.freq.cssa","low.freq.mssa",
-                                              "freq.cssa", "freq.mssa", "tau.mssa")) {
+general.grouping.auto <- function(x, ...,
+                                  grouping.method = c("freq.1dssa", "tau.1dssa","tau.cssa",
+                                                      "low.freq.2dssa","low.freq.cssa","low.freq.mssa",
+                                                      "freq.cssa", "freq.mssa", "tau.mssa")) {
   switch(match.arg(grouping.method),
-         freq.1dssa = draft.grouping.auto.freq.1dssa(x, ...),
-         tau.1dssa  = draft.grouping.auto.tau.1dssa(x, ...),
-         tau.cssa  = draft.grouping.auto.tau.cssa(x, ...),
-         low.freq.2dssa  = draft.grouping.auto.low.freq.2dssa(x, ...),
-         low.freq.cssa  = draft.grouping.auto.low.freq.cssa(x, ...),
-         low.freq.mssa  = draft.grouping.auto.low.freq.mssa(x, ...),
-         freq.cssa  = draft.grouping.auto.freq.cssa(x, ...),
-         freq.mssa  = draft.grouping.auto.freq.mssa(x, ...),
-         tau.mssa  = draft.grouping.auto.tau.mssa(x, ...))
+         freq.1dssa = general.grouping.auto.freq.1dssa(x, ...),
+         tau.1dssa  = general.grouping.auto.tau.1dssa(x, ...),
+         tau.cssa  = general.grouping.auto.tau.cssa(x, ...),
+         low.freq.2dssa  = general.grouping.auto.low.freq.2dssa(x, ...),
+         low.freq.cssa  = general.grouping.auto.low.freq.cssa(x, ...),
+         low.freq.mssa  = general.grouping.auto.low.freq.mssa(x, ...),
+         freq.cssa  = general.grouping.auto.freq.cssa(x, ...),
+         freq.mssa  = general.grouping.auto.freq.mssa(x, ...),
+         tau.mssa  = general.grouping.auto.tau.mssa(x, ...))
 }

@@ -1,4 +1,4 @@
-draft.grouping.auto.tau.1dssa <- function(x, threshold = 0.01, numcomp=0, groups,...){
+general.grouping.auto.tau.1dssa <- function(x, threshold = 0.01, numcomp=0, groups,...){
   if (missing(groups)) {
     groups <- 1:nu(x)
   }

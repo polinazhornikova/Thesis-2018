@@ -31,9 +31,9 @@ fragmentStop()
 
 ###Fragment 2dssa_trend
 fragmentStart("fragments_ch1/2dssa_trend.tex")
-g_trend <- draft.grouping.auto(s, grouping.method="low.freq.2dssa", 
-                               freq.bins1 = 0.1, freq.bins2 = 0.1,
-                               threshold = 0.7, base='series')
+g_trend <- general.grouping.auto(s, grouping.method="low.freq.2dssa", 
+                                 freq.bins1 = 0.1, freq.bins2 = 0.1,
+                                 threshold = 0.7, base='series')
 print(g_trend$g)
 fragmentStop()
 ###end 
