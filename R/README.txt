@@ -1,18 +1,19 @@
+# main automatic grouping function
+# function name: "general.grouping.auto"
+main.grouping.auto.R 
+
 # examples for different methods of automatic identification and different objects X
 examples_different_methods.R 
-
-# main automatic grouping function
-# function name: "draft.grouping.auto"
-main.grouping.auto.R 
 
 # method of identification by regularity of angles
 tau.1dssa.R
 tau.cssa.R
+tau.mssa.R
 
-# paired frequency method
-pair.freq.1dssa.R
-pair.freq.cssa.R
-pair.freq.mssa.R
+# frequency method
+freq.1dssa.R
+freq.cssa.R
+freq.mssa.R
 
 # low frequency method
 low.freq.cssa.R
@@ -34,3 +35,7 @@ tau_threshold_selection.R
 
 # Triket's algorithm for identification lines
 algorithm.trickett.R
+
+# code generation for LaTeX
+b_... .R
+ecruos.R

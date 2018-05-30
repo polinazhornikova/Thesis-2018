@@ -1,7 +1,7 @@
 general.grouping.auto.low.freq.2dssa <- function(x, groups, freq.bins1 = 0.1,
                                         freq.bins2 = 0.1,
                                         threshold = 0.8,
-                                        base = c("series", "eigen"),...) {
+                                        base = c("series", "eigen", "factor"),...) {
   
   base <- match.arg(base)
   
@@ -15,6 +15,9 @@ general.grouping.auto.low.freq.2dssa <- function(x, groups, freq.bins1 = 0.1,
     Fs <- x$U[,groups]
   } else if (identical(base, "series")) {
     Fs <- reconstruct(x, groups = as.list(groups))
+  }
+  else if (identical(base, "factor")) {
+    Fs <- calc.v(x, groups, ...)
   }
   
   Fs <- reconstruct(x, groups = as.list(groups))

@@ -230,8 +230,17 @@ s_rank4 <- ssa(matr_cos_rank4, kind = "2d-ssa", L = c(50, 50))
 plot(s_rank4, type = "vectors", cuts = 255, layout = c(5, 2))
 
 g <- general.grouping.auto(s_rank4, grouping.method="low.freq.2dssa", freq.bins1 = 0.15,freq.bins2 = 0.15,
-                           threshold = 0.7)
+                           threshold = 0.7, base='series')
 print(g$g)
+
+g <- general.grouping.auto(s_rank4, grouping.method="low.freq.2dssa", freq.bins1 = 0.15,freq.bins2 = 0.15,
+                           threshold = 0.7, base='factor')
+print(g$g)
+
+g <- general.grouping.auto(s_rank4, grouping.method="low.freq.2dssa", freq.bins1 = 0.15,freq.bins2 = 0.15,
+                           threshold = 0.7, base='eigen')
+print(g$g)
+
 r <- reconstruct(s_rank4, groups=list(g$g))
 plot2d(r$F1)
 
