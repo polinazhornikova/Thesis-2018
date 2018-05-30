@@ -520,7 +520,7 @@ D^2=(a^2+b^2-2ab\sin\phi)/4, \quad E^2=(a^2+b^2+2ab\sin\phi)/4
 
 $L$ --- длина окна, $K_p = N_p - L + 1$, $K = \sum_{p=1}^{s} K_p$.
 
-\begin{Th}  \cite[Предложение 2.2]{Golyandina.etal2003} \label{th:mssa_num} \label{th:mssa_vec}
+\begin{Th}  \cite[Предложение 2.2]{Golyandina.etal2003} \label{th:mssa_rank} \label{th:mssa_vec}
 \begin{enumerate}
 \item 
 $L$-Ранг $d$ ряда $\mathbb{S}$, элементы которого задаются \eqref{eq:em_mssa}, равен $1$, если $\omega = 0.5$, в остальных случаях $d=2$.
@@ -584,7 +584,7 @@ h(k,l) = \sum_{m=1}^{c}{s_m(k,l)},
 \begin{gather}
 \notag
 h(k,l) = \sum_{m=1}^{c}(a \cos(2\pi \omega^{(X)}k) \cos(2\pi \omega^{(Y)}l) +
-b_m \cos(2\pi \omega^{(X)}k) \sin(2\pi \omega^{(Y)}l) + \\ \label{eq:2d_cos_el}
+b_m \cos(2\pi \omega^{(X)}k) \sin(2\pi \omega^{(Y)}l) + \\ \label{eq:2d_cos_el_2}
 c_m \sin(2\pi \omega^{(X)}k) \cos(2\pi \omega^{(Y)}l) +
 d_m \sin(2\pi \omega^{(X)}k) \sin(2\pi \omega^{(Y)}l)),
 \end{gather}
@@ -1471,7 +1471,7 @@ $\sigma$ = 0.2 & 0.0003 & 0.050 & 0 & 0.0010 \\
 \widehat{U}_{i} := \widehat{U}^{(\RE)}_{i} +  \I \,\widehat{U}^{(\IM)}_{i},
 \end{gather*}
 где
-\begin{gather*} \label{eq:V_norm_mssa}
+\begin{gather*} 
 \widehat{U}^{(\RE)}_{i}:= \frac{\RE(U_i)}{\|\RE(U_i) \|}, \quad \widehat{U}^{(\IM)}_{i}:= \frac{\IM(U_i)}{\|\IM(U_i) \|}.
 \end{gather*}
 т.е $\| \widehat{U}^{(\RE)}_{i}\| = \| \widehat{U}^{(\IM)}_{i} \| = 1$. 
@@ -1679,7 +1679,7 @@ T(\mathbb{Y}_i^{(s)}; \omega)\}$.
 \widehat{V}_{i} := \left(\widehat{V}_i^{(1)}, \ldots, \widehat{V}_i^{(s)}\right),
 \end{gather*}
 где
-\begin{gather*} \label{eq:V_norm_mssa}
+\begin{gather*}
 \widehat{V}_i^{(p)} := \frac{V_i^{(p)}}{\|V_i^{(p)} \|},
 \end{gather*}
 т.е. $\| \widehat{V}_i^{(p)} \| = 1$. 
@@ -1705,19 +1705,16 @@ I_{2,p}^{(\mathbb{P})} = \{i: \quad  {K_p} |\theta_{i}^{(p)} - 0.5 | \leqslant s
 \end{gather*}
 где $\widehat{V}_i^{(p)}, \widehat{V}_{j}^{(p)}$ --- вектора с индексами из множества индексов $I_1^{(\mathbb{P})}$ отобранных на первом этапе,
 определение \ref{def:rho} меры $\rho_A$ дано в разделе \ref{sec:1d_pgram_method}.
-\begin{gather} \label{eq:pgram_I_p_mssa}
-I^{(\mathbb{P})} = \{ i: \rho_{i} \geqslant\rho_0 \}.
-\end{gather}
 
 Для идентификации компонент, относящихся к гармонике с частотой 0.5, мера имеет вид
 \begin{gather*}
-\rho_{i} :=  \max_p \{ \max_{0 \geqslant k \geqslant {K_p}/2}{\left(\rho_{\{\widehat{V}_i^{(p)}\}}(\lfloor {K_p}/2 \rfloor/{K_p}) + \rho_{\{\{\widehat{V}_i^{(p)}\}}((\lfloor {K_p}/2 \rfloor + 1)/{K_p})\right)}, p=1,\ldots, s
+\rho_{i} :=  \max_p \{ \max_{0 \leqslant k \leqslant {K_p}/2}{\left(\rho_{\{\widehat{V}_i^{(p)}\}}(\lfloor {K_p}/2 \rfloor/{K_p}) + \rho_{\{\{\widehat{V}_i^{(p)}\}}((\lfloor {K_p}/2 \rfloor + 1)/{K_p})\right)}, p=1,\ldots, s
  \},
 \end{gather*}
 где $i \in I_2^{(\mathbb{P})}$.
 
 Итоговым результатом частотного метода метода для MSSA и правых сингулярных векторов, реализуемого алгоритмом \ref{alg:mssa_pgram_2}, являются индексы 
-\begin{gather} \label{eq:pgram_I_p_mssa}
+\begin{gather} \label{eq:pgram_I_p_mssa_2}
 I^{(\mathbb{P})} = \{ (i,j): \rho_{i,j} \geqslant\rho_0 \} \cup \{ i: \rho_{i} \geqslant\rho_0 \}.
 \end{gather}
 
@@ -1735,7 +1732,7 @@ I^{(\mathbb{P})} = \{ (i,j): \rho_{i,j} \geqslant\rho_0 \} \cup \{ i: \rho_{i} \
 \STATE  
 По $\{V_i\}_{i=1}^{d}$ получаем группу индексов $I_{1,p}^{(\mathbb{P})}$, $p=1,\ldots,s$, с помощью $s_0$ и \eqref{eq:I_1_P_mssa} и группу индексов $I_{2,p}^{(\mathbb{P})}$, $p=1,\ldots,s$, с помощью $s_0$ и \eqref{eq:I_2_P_mssa};\\
 $I_1^{(\mathbb{P})}$ --- объединение множеств $\{ I_{1,p}^{(\mathbb{P})} \}_{p=1}^{s}$, $I_2^{(\mathbb{P})}$ --- объединение множеств $\{ I_{2,p}^{(\mathbb{P})} \}_{p=1}^{s}$.
-\STATE Получаем группу индексов $I^{(\mathbb{P})}$ по $\{V_j\}_{j \in I_1^{(\mathbb{P})} \cup I_2^{(\mathbb{P})}}$ и $\rho_0$ с помощью \eqref{eq:pgram_I_p_mssa}.
+\STATE Получаем группу индексов $I^{(\mathbb{P})}$ по $\{V_j\}_{j \in I_1^{(\mathbb{P})} \cup I_2^{(\mathbb{P})}}$ и $\rho_0$ с помощью \eqref{eq:pgram_I_p_mssa_2}.
 \end{algorithmic}
 \end{algorithm}
 
