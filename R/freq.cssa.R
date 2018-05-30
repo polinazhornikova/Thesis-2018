@@ -1,4 +1,5 @@
-general.grouping.auto.freq.cssa <- function(x, groups,  s_0 = 1, rho_0 = 0.9,...){
+general.grouping.auto.freq.cssa <- function(x, groups,  s_0 = 1, rho_0 = 0.9,
+                                            numcomp=0,...){
   L <- x$window
   n <- nu(x)
   max_k <- length((0:(L %/% 2)) / L)
@@ -11,8 +12,12 @@ general.grouping.auto.freq.cssa <- function(x, groups,  s_0 = 1, rho_0 = 0.9,...
   Fs <- x$U[, groups, drop = FALSE]
   
   #normalization
-  Fs_re_n <- apply(Re(Fs), 2, function(v) v/(sqrt(sum(v^2))))
-  Fs_im_n <- apply(Im(Fs), 2, function(v) v/(sqrt(sum(v^2))))
+  Fs_re_n <- apply(Re(Fs), 2, function(v) if (sum(v^2) > 0) 
+  { return <-v/(sqrt(sum(v^2)))} 
+  else {return <- v})
+  Fs_im_n <- apply(Im(Fs), 2, function(v) if (sum(v^2) > 0) 
+  { return <-v/(sqrt(sum(v^2)))} 
+  else {return <- v})
   
   # periodogram
   pgs_re <- pgram_1d(Fs_re_n)
@@ -25,11 +30,18 @@ general.grouping.auto.freq.cssa <- function(x, groups,  s_0 = 1, rho_0 = 0.9,...
   max_pgram_im <- apply(pgs_im$spec, 2, function(x) pgs_im$freq[which.max(x)])
   
   I_1 <- groups[L * abs(max_pgram_re - max_pgram_im) <= s_0]
-
+  
   ### part two
   if (length(I_1) != 0){
     rho_I_1 <- (pgs_re$spec[,I_1]  + pgs_im$spec[,I_1])/2
-    I_1_final <- I_1[apply(rho_I_1, 2, function(x) max(x[1:(max_k-1)] + x[2:max_k])) >= rho_0 ]
+    if (numcomp > 0) {
+      rho_I_1_max <- apply(rho_I_1, 2, function(x) max(x[1:(max_k-1)] + x[2:max_k]))
+      I_1_final <- I_1[which(rho_I_1_max %in% sort(rho_I_1_max, decreasing = TRUE)[1:numcomp])]
+    }
+    else{
+      I_1_final <- I_1[apply(rho_I_1, 2, function(x) max(x[1:(max_k-1)] + x[2:max_k])) >= rho_0 ]
+    }
+    
   }
   else {I_1_final <- numeric(0)}
   

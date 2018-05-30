@@ -84,6 +84,10 @@ xyplot(X_im + S_im ~ N, data = d_im, type ='l')
 # paired frequency
 plot.d1(s)
 plot(s, type="paired")
+
+g <- general.grouping.auto(s, grouping.method = "freq.cssa", numcomp=3)
+print(g)
+
 g <- general.grouping.auto(s, grouping.method = "freq.cssa", rho_0 = 0.95)
 print(g)
 

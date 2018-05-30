@@ -117,13 +117,19 @@ plot.matrix <- function(m, from.0.to.1 = FALSE){
 }
 
 # Step Complex SSA by columns
-cssa.col <- function(m, num.line = 1, auto=1){
+cssa.col <- function(m, num.line = 1, auto=1, method=c("tau.cssa", "freq.cssa")){
+  method <- match.arg(method)
   N_c <- nrow(m)
   N_t <- ncol(m)
   for (i in (1:N_t)){
     s <- ssa(m[,i], kind = "cssa", svd.method = "svd")
     if (auto){
-      idx <- general.grouping.auto(x=s, grouping.method = "tau.cssa",numcomp1 = num.line)$d1
+      if (identical(method, "tau.cssa")) {
+        idx <- general.grouping.auto(x=s, grouping.method = method,numcomp1 = num.line)$idx
+      }
+      else if (identical(method, "freq.cssa")) {
+          idx <- general.grouping.auto(x=s, grouping.method = method, numcomp = num.line)
+        }
       r <- reconstruct(s, groups = list(Seasonality = (idx)))
     }
     else{
@@ -151,11 +157,14 @@ m.noise <- add.noise(m.in, 0.2)
 plot.matrix(rotate(Re(m.noise)))
 
 m.dft <- dft(m.noise)
-m.cssa.col <- cssa.col(m.dft, num.line = 2)
+m.cssa.col <- cssa.col(m.dft, num.line = 2, method='tau.cssa')
 m.col.row <- idft.row(m.cssa.col)
+m.cssa.col1 <- cssa.col(m.dft, num.line = 2, method='freq.cssa')
+m.col.row1 <- idft.row(m.cssa.col1)
 m.cssa.col2 <- cssa.col(m.dft, num.line = 2, auto=0)
 m.col.row2 <- idft.row(m.cssa.col2)
 
 plot.matrix(rotate(Re(m.noise)))
 plot.matrix(rotate(Re(m.col.row)), from.0.to.1 = TRUE)
+plot.matrix(rotate(Re(m.col.row1)), from.0.to.1 = TRUE)
 plot.matrix(rotate(Re(m.col.row2)), from.0.to.1 = TRUE)
