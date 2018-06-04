@@ -50,4 +50,4 @@ plot2d <- function(x) {
 }
 
 trellis.par.get("fontsize")
-ecruos("b_ssa_analysis_cssa.R")
+ecruos("b_ssa_analysis_1dssa.R")
